@@ -126,6 +126,7 @@ th button{all:unset;cursor:pointer;text-decoration:underline;text-underline-offs
 .group{display:flex;flex-direction:column}
 .mrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 14px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}
 .mrow:last-child{border-bottom:0}
+.sinfo{grid-column:1/-1;background:var(--surface2);border-radius:8px;padding:9px 12px;font-size:13.5px;line-height:1.45}
 .mname{display:flex;flex-direction:column;min-width:0}
 .mname b{font-weight:600}
 .mname span{font-size:12.5px;color:var(--muted)}
@@ -221,25 +222,25 @@ var THEMES=[
   ['Terugblik','Welk deel van jouw resultaat komt door je eigen beleid en welk deel door toeval of de markt? Wat zou je een volgende keer anders doen?']
 ];
 var DEFAULT_SEC=[
-  {id:'spaar',name:'Spaarrekening',type:'spaar',sector:'Vaste rente'},
-  {id:'asml',name:'ASML',type:'aandeel',sector:'Halfgeleiders'},
-  {id:'asmi',name:'ASM International',type:'aandeel',sector:'Halfgeleiders'},
-  {id:'adyen',name:'Adyen',type:'aandeel',sector:'Betaaldiensten'},
-  {id:'prosus',name:'Prosus',type:'aandeel',sector:'Internet'},
-  {id:'unilever',name:'Unilever',type:'aandeel',sector:'Consumentengoederen'},
-  {id:'heineken',name:'Heineken',type:'aandeel',sector:'Consumentengoederen'},
-  {id:'ahold',name:'Ahold Delhaize',type:'aandeel',sector:'Supermarkten'},
-  {id:'umg',name:'Universal Music Group',type:'aandeel',sector:'Media'},
-  {id:'philips',name:'Philips',type:'aandeel',sector:'Gezondheidstechniek'},
-  {id:'ing',name:'ING',type:'aandeel',sector:'Banken'},
-  {id:'kpn',name:'KPN',type:'aandeel',sector:'Telecom'},
-  {id:'basicfit',name:'Basic-Fit',type:'aandeel',sector:'Sportscholen'},
-  {id:'fastned',name:'Fastned',type:'aandeel',sector:'Laadpalen',risk:5},
-  {id:'ajax',name:'AFC Ajax',type:'aandeel',sector:'Voetbal'},
-  {id:'theon',name:'Theon International',type:'aandeel',sector:'Defensie'},
-  {id:'alfen',name:'Alfen',type:'aandeel',sector:'Energietransitie'},
-  {id:'goud',name:'Goud',type:'grondstof',sector:'Edelmetaal',note:'prijs per troy ounce in euro, koers van dit moment'},
-  {id:'btc',name:'Bitcoin',type:'crypto',sector:'Cryptovaluta'}
+  {id:'spaar',name:'Spaarrekening',type:'spaar',sector:'Vaste rente',info:'Een gewone spaarrekening bij een bank. Je krijgt een vaste rente en je inleg kan niet in waarde dalen. Veilig, maar de rente is meestal lager dan wat beleggen gemiddeld oplevert.'},
+  {id:'asml',name:'ASML',type:'aandeel',sector:'Halfgeleiders',info:"Nederlands bedrijf dat machines maakt waarmee chips worden geproduceerd. Bijna alle moderne chips (telefoons, auto's, AI) zijn afhankelijk van deze machines. Staat bekend als een van de grootste techbedrijven van Europa."},
+  {id:'asmi',name:'ASM International',type:'aandeel',sector:'Halfgeleiders',info:'Nederlands bedrijf dat apparatuur levert voor de productie van chips. Kleiner dan ASML, maar ook afhankelijk van de vraag naar halfgeleiders.'},
+  {id:'adyen',name:'Adyen',type:'aandeel',sector:'Betaaldiensten',info:'Nederlands bedrijf dat betalingen voor webwinkels en winkels verwerkt (pinnen, iDEAL, creditcard). Verdient aan een klein percentage van elke betaling.'},
+  {id:'prosus',name:'Prosus',type:'aandeel',sector:'Internet',info:'Beleggingsmaatschappij met grote belangen in internetbedrijven over de hele wereld, zoals online marktplaatsen en betaaldiensten. Een deel van de waarde komt uit aandelen in andere bedrijven.'},
+  {id:'unilever',name:'Unilever',type:'aandeel',sector:'Consumentengoederen',info:'Wereldwijd producent van voeding, huishoudelijke en verzorgingsproducten (bekende merken in de supermarkt). Verkoopt producten die mensen ook in slechte tijden kopen, dus meestal rustiger dan techaandelen.'},
+  {id:'heineken',name:'Heineken',type:'aandeel',sector:'Consumentengoederen',info:'Nederlandse bierbrouwer met merken wereldwijd. Verdient aan de verkoop van bier en is gevoelig voor grondstofprijzen en consumentenbestedingen.'},
+  {id:'ahold',name:'Ahold Delhaize',type:'aandeel',sector:'Supermarkten',info:'Supermarktconcern met winkels in Nederland, België en de Verenigde Staten (onder andere Albert Heijn). Mensen moeten eten kopen, dus de omzet is vrij stabiel.'},
+  {id:'umg',name:'Universal Music Group',type:'aandeel',sector:'Media',info:'Een van de grootste muziekbedrijven ter wereld. Verdient aan opnames, uitgave van muziek en streamingdiensten.'},
+  {id:'philips',name:'Philips',type:'aandeel',sector:'Gezondheidstechniek',info:'Nederlands bedrijf in medische apparatuur en gezondheidstechniek, zoals scanners en monitoren. Verkocht eerder zijn lampen- en consumentenelektronicatak.'},
+  {id:'ing',name:'ING',type:'aandeel',sector:'Banken',info:'Nederlandse grootbank met klanten in meerdere landen. Verdient onder andere aan het verschil tussen rente op sparen en rente op leningen, dus rentestanden spelen een grote rol.'},
+  {id:'kpn',name:'KPN',type:'aandeel',sector:'Telecom',info:'Grootste telecombedrijf van Nederland (mobiel, internet, vast). Klanten betalen maandelijks, waardoor inkomsten vrij voorspelbaar zijn.'},
+  {id:'basicfit',name:'Basic-Fit',type:'aandeel',sector:'Sportscholen',info:'Sportschoolketen met veel goedkope vestigingen in Europa. Verdient aan abonnementen en groeit door nieuwe locaties openen, vaak met geleend geld.'},
+  {id:'fastned',name:'Fastned',type:'aandeel',sector:'Laadpalen',risk:5,info:"Bedrijf dat snellaadstations voor elektrische auto's bouwt en beheert langs snelwegen. Een groeibedrijf: de verwachtingen zijn hoog en de koers kan sterk schommelen."},
+  {id:'ajax',name:'AFC Ajax',type:'aandeel',sector:'Voetbal',info:'Het bedrijf achter de voetbalclub Ajax staat zelf op de beurs. Inkomsten komen uit transfers, tv-rechten, sponsors en kaartverkoop, en hangen mede af van sportieve resultaten.'},
+  {id:'theon',name:'Theon International',type:'aandeel',sector:'Defensie',info:'Nederlands bedrijf dat nachtkijkers en andere optische apparatuur voor defensie maakt. De vraag hangt sterk af van defensiebudgetten van overheden.'},
+  {id:'alfen',name:'Alfen',type:'aandeel',sector:'Energietransitie',info:'Nederlands bedrijf dat laadpalen, batterijopslag en slimme energiesystemen maakt. Hangt af van de energietransitie en van subsidies en regelgeving.'},
+  {id:'goud',name:'Goud',type:'grondstof',sector:'Edelmetaal',note:'prijs per troy ounce in euro, koers van dit moment',info:'Een edelmetaal dat al eeuwenlang als bewaarmiddel van waarde wordt gebruikt. Geeft geen rente of dividend; de winst of het verlies komt alleen uit de prijsverandering. De prijs is per troy ounce (ongeveer 31 gram).'},
+  {id:'btc',name:'Bitcoin',type:'crypto',sector:'Cryptovaluta',info:'De bekendste cryptovaluta, een digitaal betaalmiddel zonder bank of overheid erachter. Er is geen bedrijf met winst; de prijs hangt vooral af van vraag en verwachtingen en kan extreem schommelen.'}
 ];
 var DEFAULTS={status:'setup',currentWeek:0,startCash:10000,fee:1,weeks:6,savingsRate:2,cryptoMax:100};
 var TYPE_LABEL={spaar:'Sparen',etf:"ETF's (beleggingsfondsen)",aandeel:'Aandelen',grondstof:'Goud (grondstof)',crypto:'Cryptovaluta'};
@@ -251,7 +252,7 @@ var PAL=['--c1','--c2','--c3','--c4','--c5','--c6'];
 
 /* ---------- toestand ---------- */
 var S={db:null,user:null,uid:null,admin:false,owner:false,raw:{},cfg:Object.assign({},DEFAULTS),prices:{},priceDocs:{},players:{},notes:{},loaded:false,err:null,subs:0};
-var ui={tab:'week',dtab:'verloop',order:null,none:null,answer:{},sort:'ret',lesWeek:null,lesAnon:true,priceWeek:1,priceDraft:{},priceDate:{},paste:'',pasteMsg:null,cfgDraft:{},qDraft:{},secDraft:{name:'',type:'aandeel',sector:''},joinName:'',joinErr:'',auth:{mode:'in',name:'',pw:'',pw2:'',email:'',err:'',busy:false},confirm:null,pending:false,busy:false,kcode:'',rcode:'',icode:'',codeMsg:null,impMsg:null};
+var ui={info:{},tab:'week',dtab:'verloop',order:null,none:null,answer:{},sort:'ret',lesWeek:null,lesAnon:true,priceWeek:1,priceDraft:{},priceDate:{},paste:'',pasteMsg:null,cfgDraft:{},qDraft:{},secDraft:{name:'',type:'aandeel',sector:'',info:''},joinName:'',joinErr:'',auth:{mode:'in',name:'',pw:'',pw2:'',email:'',err:'',busy:false},confirm:null,pending:false,busy:false,kcode:'',rcode:'',icode:'',codeMsg:null,impMsg:null};
 
 /* ---------- kleine hulpfuncties ---------- */
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
@@ -731,6 +732,7 @@ function weekHtml(){
   }
   return html;
 }
+function infoOf(s){if(s.info)return s.info;var d=null;DEFAULT_SEC.forEach(function(x){if(x.id===s.id)d=x;});return d&&d.info?d.info:'';}
 function marketRow(s,w,snap){
   var pr=exactPrice(s.id,w),prev=w>1?priceAt(s.id,w-1):null,ch=(pr!=null&&prev!=null&&w>1)?pr/prev-1:null;
   var pos=null;snap.parts.forEach(function(x){if(x.id===s.id)pos=x;});
@@ -741,7 +743,9 @@ function marketRow(s,w,snap){
     '<div class="macts">'+
     (pr!=null?'<button type="button" class="btn sm" data-act="open-order" data-sec="'+esc(s.id)+'" data-side="buy">Koop</button>':'')+
     (pr!=null&&pos?'<button type="button" class="btn sm" data-act="open-order" data-sec="'+esc(s.id)+'" data-side="sell">Verkoop</button>':'')+
-    (pos?'<span class="small muted">Jij bezit: <span class="num">'+eur(pos.val)+'</span></span>':'')+'</div>';
+    (pos?'<span class="small muted">Jij bezit: <span class="num">'+eur(pos.val)+'</span></span>':'')+
+    (infoOf(s)?'<button type="button" class="btn sm" data-act="toggle-info" data-sec="'+esc(s.id)+'" aria-expanded="'+(ui.info[s.id]?'true':'false')+'">'+(ui.info[s.id]?'Sluit info':'Info')+'</button>':'')+'</div>';
+  if(ui.info[s.id]&&infoOf(s))h+='<div class="sinfo">'+esc(infoOf(s))+'</div>';
   if(open)h+=orderPanel(s,pos);
   return h+'</div>';
 }
@@ -1059,6 +1063,7 @@ function instellingenHtml(){
     '<div class="grid2"><label>Naam<input type="text" id="sec-name" data-f="sec" data-k="name" value="'+esc(ui.secDraft.name)+'"></label>'+
     '<label>Soort<select id="sec-type" data-f="sec" data-k="type">'+['aandeel','etf','grondstof','crypto'].map(function(t){return '<option value="'+t+'"'+(ui.secDraft.type===t?' selected':'')+'>'+esc(TYPE_LABEL[t])+'</option>';}).join('')+'</select></label>'+
     '<label>Sector<input type="text" id="sec-sector" data-f="sec" data-k="sector" value="'+esc(ui.secDraft.sector)+'"></label></div>'+
+    '<label>Omschrijving <span class="hint">Wat doet dit bedrijf of fonds? (1-2 zinnen, voor de Info-knop)</span><textarea id="sec-info" data-f="sec" data-k="info">'+esc(ui.secDraft.info||'')+'</textarea></label>'+
     '<div class="row"><button type="button" class="btn" data-act="add-sec">Voeg fonds toe</button>'+(c.securities?'<button type="button" class="btn" data-act="reset-sec">Herstel standaardlijst</button>':'')+'</div></section>';
   return h;
 }
@@ -1131,6 +1136,7 @@ async function act(a,d){
     case 'auth-mode':ui.auth.mode=d.m;ui.auth.err='';render(true);break;
     case 'toggle-role':setAdmin(!S.admin);try{if(!S.adminMem||location.hash==='#docent')history.replaceState(null,'',location.pathname+location.search);}catch(e){}S.admin=isAdmin();S.owner=S.admin;ui.tab=S.admin?'docent':'week';ui.order=null;ui.none=null;render(true);break;
     case 'save-answer':await saveAnswer();break;
+    case 'toggle-info':ui.info[d.sec]=!ui.info[d.sec];render(true);break;
     case 'open-order':ui.order={sec:d.sec,side:d.side,amount:'',all:false,why:'',exp:EXP[0],hor:HOR[0]};ui.none=null;render(true);break;
     case 'o-max':if(ui.order&&ui.order.side==='buy'){ui.order.amount=String(maxBuy(secById(ui.order.sec)));render(true);updateOrderPreview();}break;
     case 'cancel-order':ui.order=null;render(true);break;
@@ -1196,8 +1202,8 @@ async function act(a,d){
       var sd=ui.secDraft,nm2=(sd.name||'').trim();
       if(!nm2){toast('Vul een naam in.');break;}
       var id=norm(nm2)||('f'+Date.now().toString(36)),base=id,c2=2;while(secs().some(function(s){return s.id===id;}))id=base+(c2++);
-      var list3=secs().concat([{id:id,name:nm2,type:sd.type||'aandeel',sector:(sd.sector||'').trim()||'—'}]);
-      await guard(async function(){await saveCfg({securities:list3});ui.secDraft={name:'',type:'aandeel',sector:''};toast(nm2+' toegevoegd. Voer nu de koers in.');});break;}
+      var list3=secs().concat([{id:id,name:nm2,type:sd.type||'aandeel',sector:(sd.sector||'').trim()||'—',info:(sd.info||'').trim()}]);
+      await guard(async function(){await saveCfg({securities:list3});ui.secDraft={name:'',type:'aandeel',sector:'',info:''};toast(nm2+' toegevoegd. Voer nu de koers in.');});break;}
     case 'del-sec':{
       var list4=secs().filter(function(s){return s.id!==d.id;});
       await guard(async function(){await saveCfg({securities:list4});});break;}
