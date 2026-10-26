@@ -185,7 +185,7 @@ ul.keys li span:first-of-type{flex:1;min-width:0;overflow:hidden;text-overflow:e
       messagingSenderId:"869057175470",
       appId:"1:869057175470:web:d7ff744879a65f1d21323f"
     };
-    var app=A.initializeApp(cfg),auth=U.getAuth(app),fs=F.getFirestore(app);
+    var app=A.initializeApp(cfg),auth=U.getAuth(app),fs=F.initializeFirestore(app,{experimentalAutoDetectLongPolling:true});
     function usr(u){return u?{uid:u.uid,email:u.email}:null;}
     function wrap(s){return {id:s.id,exists:s.exists(),data:function(){return s.data();}};}
     window.__vbsRes({
@@ -376,8 +376,16 @@ var DOMAIN='vinse-beursspel.firebaseapp.com',TEACHER_EMAIL='docent@'+DOMAIN;
 var FB=null,subs=[];
 function slug(n){return String(n||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');}
 function studentEmail(n){var s=slug(n);return s?'s.'+s+'@'+DOMAIN:null;}
+function withTimeout(p,ms,msg){
+  var t;
+  return Promise.race([p,new Promise(function(_,rej){t=setTimeout(function(){var e=new Error(msg||'Geen verbinding met de database. Zet advertentieblokkers uit, of probeer een ander netwerk of apparaat.');e.code='vbs/timeout';rej(e);},ms);})]).then(function(v){clearTimeout(t);return v;},function(e){clearTimeout(t);throw e;});
+}
+var AUTHTO='Geen verbinding met de inlogserver van Firebase. Zet advertentieblokkers uit, of probeer een ander netwerk of apparaat.';
+function TO(){return (typeof window!=='undefined'&&window.__vbsTimeout)||15000;}
 function authMsg(e){
   var c=(e&&e.code)||'';
+  if(c==='vbs/timeout')return e.message;
+  if(c==='permission-denied')return 'Opslaan is geweigerd door de regels in Firebase.';
   if(c==='auth/email-already-in-use')return 'Dit pseudoniem bestaat al. Ben jij dat? Kies dan Inloggen. Anders kies je een ander pseudoniem.';
   if(c==='auth/invalid-credential'||c==='auth/wrong-password'||c==='auth/user-not-found'||c==='auth/invalid-login-credentials')return 'Pseudoniem of wachtwoord klopt niet.';
   if(c==='auth/weak-password')return 'Kies een wachtwoord of pincode van minimaal 6 tekens.';
@@ -400,12 +408,12 @@ async function doLogin(){
   a.busy=true;render(true);
   try{
     if(a.mode==='up'){
-      var u=await FB.signUp(email,pw);
-      await FB.db.doc('notes/'+u.uid).set({pseudo:name,items:[],answers:{}});
-      await FB.db.doc('players/'+u.uid).set({pseudo:name,createdAt:Date.now(),trades:[]});
-    }else await FB.signIn(email,pw);
+      var u=await withTimeout(FB.signUp(email,pw),TO(),AUTHTO);
+      await withTimeout(FB.db.doc('notes/'+u.uid).set({pseudo:name,items:[],answers:{}}),TO());
+      await withTimeout(FB.db.doc('players/'+u.uid).set({pseudo:name,createdAt:Date.now(),trades:[]}),TO());
+    }else await withTimeout(FB.signIn(email,pw),TO(),AUTHTO);
     a.pw='';a.pw2='';
-  }catch(e){a.err=authMsg(e);}
+  }catch(e){a.err=authMsg(e);if(S.user)toast(a.err);}
   a.busy=false;render(true);
 }
 function loginHtml(){
@@ -554,7 +562,7 @@ function myNotes(){return (S.uid&&S.notes[S.uid])||{items:[],answers:{}};}
 function newKey(){return (S.uid||'u').slice(-5)+'-'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);}
 async function guard(fn){
   if(ui.busy)return;ui.busy=true;
-  try{await fn();}catch(e){var m=(e&&e.message)||'onbekende fout';toast('Opslaan is niet gelukt: '+m);}
+  try{await withTimeout(Promise.resolve().then(fn),TO());}catch(e){var m=(e&&e.code==='permission-denied')?'geweigerd door de regels in Firebase':((e&&e.message)||'onbekende fout');toast('Opslaan is niet gelukt: '+m);}
   ui.busy=false;
 }
 async function joinGame(){
